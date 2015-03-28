@@ -6,6 +6,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
+#include <ctime>
+#include <cstdio>
 #include "mattoqimageutil.h"
 
 namespace Ui {
@@ -35,6 +37,7 @@ private:
     int devNum;
     VideoCapture cam;
     string savePath;
+    int numImagesSaved;
 };
 
 #endif // CAPTUREWIDGET_H
