@@ -9,7 +9,7 @@ ChooseCameraWidget::ChooseCameraWidget(QWidget *parent) :
 
     connectedCamIndex = 0;
     connectedCamNums = findConnectedWebcams();
-    cam = VideoCapture(connectedCamNums[connectedCamIndex]);
+    cam = VideoCapture(getCurrentCamNum());
 
     // Set "loading" message (purely for fun)
     ui->feedLabel->setText(QtUtil::randomLoadMessage());
@@ -49,11 +49,21 @@ vector<int> ChooseCameraWidget::findConnectedWebcams() {
 void ChooseCameraWidget::updateConnectedCamIndex(int diff) {
     int numCams = connectedCamNums.size();
     connectedCamIndex = (connectedCamIndex + diff + numCams) % numCams;
-    cam.open(connectedCamNums[connectedCamIndex]);
+    cam.open(getCurrentCamNum());
+
+    // Prevent capture only if feed is not available
+    if(cam.isOpened()) {
+        ui->captureButton->setDisabled(false);
+    }
+    else {
+        ui->feedLabel->clear();
+        ui->feedLabel->setText("Feed not available for this camera. Press left or right buttons for other cameras.");
+        ui->captureButton->setDisabled(true);
+    }
 }
 
 int ChooseCameraWidget::getCurrentCamNum() {
-    return connectedCamIndex;
+    return connectedCamNums[connectedCamIndex];
 }
 
 string ChooseCameraWidget::getSaveLocation() {

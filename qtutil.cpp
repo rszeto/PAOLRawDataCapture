@@ -19,11 +19,14 @@ void QtUtil::displayMat(const Mat& mat, QLabel &location){
 }
 
 QString QtUtil::randomLoadMessage() {
-    int numMessages = 3;
+    int numMessages = 6;
     string messages[] = {
         "Please wait, loading photons...",
         "Please wait, pondering the future of AI...",
-        "Please wait, scanning classroom for threats..."
+        "Please wait, scanning classroom for threats...",
+        "Please wait, measuring student happiness...",
+        "Please wait, loading megapixels...",
+        "Please wait, calibrating pixels..."
     };
     return QString::fromStdString(messages[rand() % numMessages]);
 }
