@@ -34,27 +34,32 @@ void CaptureWidget::on_stopButton_clicked()
 }
 
 void CaptureWidget::saveCurrentFrame() {
-    Mat currentFrame;
-    // Clear camera buffer to get image at current time,
-    // otherwise we get a lag in the captured images
-    // http://answers.opencv.org/question/29957/highguivideocapture-buffer-introducing-lag/
-    for(int i = 0; i < 5; i++)
-        cam >> currentFrame;
-    QtUtil::displayMat(currentFrame, *ui->camFeedLabel);
+    if(cam.isOpened()) {
+        Mat currentFrame;
+        // Clear camera buffer to get image at current time,
+        // otherwise we get a lag in the captured images
+        // http://answers.opencv.org/question/29957/highguivideocapture-buffer-introducing-lag/
+        for(int i = 0; i < 5; i++)
+            cam >> currentFrame;
+        QtUtil::displayMat(currentFrame, *ui->camFeedLabel);
 
-    // Get current time
-    time_t currentTime;
-    time(&currentTime);
+        // Get current time
+        time_t currentTime;
+        time(&currentTime);
 
-    // Get path to save image to
-    char buffer[256];
-    sprintf(buffer, "%s/cameraIn%06d-%010ld-0.png", savePath.c_str(),
-            numImagesSaved, currentTime);
-    qDebug("%s", buffer);
-    // Save the current frame
-    imwrite(buffer, currentFrame);
+        // Get path to save image to
+        char buffer[256];
+        sprintf(buffer, "%s/cameraIn%06d-%010ld-0.png", savePath.c_str(),
+                numImagesSaved, currentTime);
+        qDebug("%s", buffer);
+        // Save the current frame
+        imwrite(buffer, currentFrame);
 
-    numImagesSaved++;
+        numImagesSaved++;
+    }
+    else {
+        qWarning("Failed to get image from camera.");
+    }
 }
 
 
