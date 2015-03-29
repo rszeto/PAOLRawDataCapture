@@ -8,11 +8,15 @@
 #include <opencv2/highgui/highgui.hpp>
 
 using namespace cv;
-class MatToQImageUtil
+class QtUtil
 {
 public:
-    static QImage convertMatToQImage(const Mat& mat);
     static void displayMat(const Mat& mat, QLabel &location);
+    static QString randomLoadMessage();
+
+private:
+    static QImage convertMatToQImage(const Mat& mat);
+
 };
 
 #endif // MATTOQIMAGEUTIL_H

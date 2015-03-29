@@ -16,12 +16,12 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     choosecamerawidget.cpp \
     capturewidget.cpp \
-    mattoqimageutil.cpp
+    qtutil.cpp
 
 HEADERS  += mainwindow.h \
     choosecamerawidget.h \
     capturewidget.h \
-    mattoqimageutil.h
+    qtutil.h
 
 FORMS    += mainwindow.ui \
     choosecamerawidget.ui \

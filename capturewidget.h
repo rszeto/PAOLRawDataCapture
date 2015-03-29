@@ -8,7 +8,8 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
-#include "mattoqimageutil.h"
+#include <cstdlib>
+#include "qtutil.h"
 
 namespace Ui {
 class CaptureWidget;

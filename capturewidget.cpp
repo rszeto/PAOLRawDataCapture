@@ -16,6 +16,9 @@ CaptureWidget::CaptureWidget(int devNo, string path, QWidget *parent) :
     cam.set(CV_CAP_PROP_FRAME_WIDTH, 1920);
     cam.set(CV_CAP_PROP_FRAME_HEIGHT, 1080);
 
+    // Set "loading" message (purely for fun)
+    ui->camFeedLabel->setText(QtUtil::randomLoadMessage());
+
     connect(&timer, SIGNAL(timeout()), this, SLOT(saveCurrentFrame()));
     timer.start(1000);
 }
@@ -37,7 +40,7 @@ void CaptureWidget::saveCurrentFrame() {
     // http://answers.opencv.org/question/29957/highguivideocapture-buffer-introducing-lag/
     for(int i = 0; i < 5; i++)
         cam >> currentFrame;
-    MatToQImageUtil::displayMat(currentFrame, *ui->camFeedLabel);
+    QtUtil::displayMat(currentFrame, *ui->camFeedLabel);
 
     // Get current time
     time_t currentTime;
@@ -45,11 +48,13 @@ void CaptureWidget::saveCurrentFrame() {
 
     // Get path to save image to
     char buffer[256];
-    sprintf(buffer, "%s/cameraIn%06d-%010ld-%d.png", savePath.c_str(),
-            numImagesSaved, currentTime, devNum);
-    qDebug(buffer);
+    sprintf(buffer, "%s/cameraIn%06d-%010ld-0.png", savePath.c_str(),
+            numImagesSaved, currentTime);
+    qDebug("%s", buffer);
     // Save the current frame
     imwrite(buffer, currentFrame);
 
     numImagesSaved++;
 }
+
+
